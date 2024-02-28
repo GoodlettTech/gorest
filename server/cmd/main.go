@@ -23,6 +23,8 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 func main() {
 	e := echo.New()
 
+	e.Static("", "./frontend/build")
+
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
 
@@ -31,5 +33,5 @@ func main() {
 	routes.InitRoutes(e)
 
 	e.Logger.Fatal(
-		e.Start(":3000"))
+		e.Start(":3001"))
 }

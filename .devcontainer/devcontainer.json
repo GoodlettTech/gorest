@@ -12,8 +12,11 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"a-h.templ",
-				"yzhang.markdown-all-in-one"
+				"yzhang.markdown-all-in-one",
+				"ms-azuretools.vscode-docker",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"ms-vscode.vscode-typescript-tslint-plugin"
 			],
 			"settings": {
 				"files.exclude": {

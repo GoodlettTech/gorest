@@ -7,7 +7,8 @@ import (
 )
 
 func InitRoutes(e *echo.Echo) {
-	RegisterRoutes(e.Group("auth"), Auth.RegisterRoutes)
+	api := e.Group("api")
+	RegisterRoutes(api.Group("/auth"), Auth.RegisterRoutes)
 }
 
 type RegisterRouterFunc func(*echo.Group)
