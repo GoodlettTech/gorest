@@ -1,10 +1,10 @@
-import LoginForm from "../components/LoginForm";
-import AuthForm from "../components/Auth";
-
+import LoginForm from '../components/LoginForm';
 export default function LoginPage() {
 	return (
-		<AuthForm title="Login">
-            <LoginForm/>
-        </AuthForm>
+		<div class="row justify-content-center">
+			<div className="col-sm-6">
+				<LoginForm></LoginForm>
+			</div>
+		</div>
 	);
 }

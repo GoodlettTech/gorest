@@ -1,35 +1,22 @@
-import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
-import LoginPage from "./pages/LoginPage";
-import CreateUserPage from "./pages/CreateUserPage";
+import { Router, Route } from '@solidjs/router';
+import UsersPage from './pages/UsersPage';
+import HomePage from './pages/HomePage';
+import AuthGuard from './components/AuthGuard';
+import LoginPage from './pages/LoginPage';
+import Layout from './pages/Layout';
+import CreateUserPage from './pages/CreateUserPage';
 
-const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <Home />,
-	},
-	{
-		path: "auth",
-		children: [
-			{
-				path:"login",
-				element: <LoginPage/>
-			},
-			{
-				path:"createuser",
-				element: <CreateUserPage />
-			}
-		]
-	}
-]);
-
-function App() {
+export default function App() {
 	return (
-		<div className="container-lg">
-			<RouterProvider router={router} />
-		</div>
+		<Router>
+			<Route path="/" component={Layout}>
+				<Route path="/" component={AuthGuard}>
+					<Route path="/" component={HomePage} />
+					<Route path="/users" component={UsersPage} />
+				</Route>
+				<Route path="/login" component={LoginPage} />
+				<Route path="/createuser" component={CreateUserPage} />
+			</Route>
+		</Router>
 	);
 }
-
-export default App;

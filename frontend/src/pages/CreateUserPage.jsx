@@ -1,10 +1,10 @@
-import AuthForm from "../components/Auth";
-import CreateUserForm from "../components/CreateUserForm";
-
+import CreateUserForm from '../components/CreateUserForm';
 export default function CreateUserPage() {
 	return (
-		<AuthForm title="Create User">
-            <CreateUserForm/>
-        </AuthForm>
+		<div class="row justify-content-center">
+			<div className="col-sm-6">
+				<CreateUserForm></CreateUserForm>
+			</div>
+		</div>
 	);
 }

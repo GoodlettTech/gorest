@@ -1,76 +1,103 @@
-import { signal } from "@preact/signals-react";
-import { setToken } from "../services/Auth";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { A, useNavigate } from '@solidjs/router';
+import TextInput from './TextInput';
+import { createStore, produce } from 'solid-js/store';
+import Form, { error, setError } from './Form';
+import { jwt, setJwt } from '../signals/jwt';
 
-const errorMessage = signal("");
-const creds = signal({
-	username: "",
-	password: "",
+export const [form, setForm] = createStore({
+	username: '',
+	password: '',
 });
 
-function handleInput(event) {
-	creds.value = {
-		...creds.value,
-		[event.target.name]: event.target.value,
-	};
-}
-
-export default function LoginForm() {
-	let navigate = useNavigate();
-	async function handleLogin(event) {
-		let res;
-		try {
-			errorMessage.value = "";
-			res = await axios.post("http://localhost:3001/api/auth/login", {
-				username: creds.value.username,
-				password: creds.value.password,
-			});
-		} catch (error) {
-			errorMessage.value = error.response.data.message;
-			return;
-		}
-
-		setToken(res?.data);
-		navigate('/')
-	}
+export default function LoginForm(props) {
+	const navigate = useNavigate();
+	setError('');
 
 	return (
-		<form className="flex flex-col" onSubmit={(e) => e.preventDefault()}>
-			<div className="flex flex-col">
-				<label htmlFor="username">Username</label>
-				<input
-					type="text"
-					id="username"
-					name="username"
-					placeholder="username"
-					defaultValue={creds.value.username}
-					onChange={handleInput}
-				/>
+		<Form
+			title="Login"
+			onsubmit={async (e) => {
+				e.preventDefault();
+				console.log(form);
+
+				let response = await fetch(
+					'http://localhost:3001/api/auth/login',
+					{
+						method: 'POST',
+						body: JSON.stringify({
+							username: form.username,
+							password: form.password,
+						}),
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					}
+				);
+
+				if (response.status !== 201) {
+					setError((await response.json()).message);
+					return;
+				}
+
+				setError('');
+
+				let token = await response.text();
+
+				setJwt(token);
+				navigate('/', {replace: true})
+			}}
+		>
+			<TextInput
+				id="usernameInput"
+				placeholder="Enter Username"
+				name="username"
+				autocomplete="username"
+				required={true}
+				minLength={4}
+				maxLength={16}
+				onInput={(e) =>
+					setForm(
+						produce((currentForm) => {
+							currentForm.username = e.target.value;
+						})
+					)
+				}
+				value={form.username}
+			>
+				Username
+			</TextInput>
+			<TextInput
+				id="passwordInput"
+				type="password"
+				name="password"
+				autocomplete="pass"
+				placeholder="Enter Password"
+				required={true}
+				minLength={8}
+				maxLength={32}
+				onInput={(e) =>
+					setForm(
+						produce((currentForm) => {
+							currentForm.password = e.target.value;
+						})
+					)
+				}
+				value={form.password}
+			>
+				Password
+			</TextInput>
+			<div className="row justify-content-center">
+				<div className="col-sm-6 col-8 mt-2 justify-content-center d-flex">
+					<button type="submit" class="btn btn-primary">
+						Login
+					</button>
+				</div>
+				<div className="col-sm-6 col-8 align-self-center justify-content-center d-flex">
+					<A href="/createuser" class="">
+						Create a user
+					</A>
+				</div>
 			</div>
-			<div className="flex flex-col">
-				<label htmlFor="password">Password</label>
-				<input
-					type="password"
-					id="password"
-					name="password"
-					placeholder="password"
-					defaultValue={creds.value.password}
-					onChange={handleInput}
-				/>
-			</div>
-			<div className="error-messages">{errorMessage}</div>
-			<div className="flex flex-row">
-				<button
-					className="btn bg-zinc-600 round mt-4 p-1 mx-auto"
-					onClick={handleLogin}
-				>
-					Login
-				</button>
-				<Link className="mt-4 p-1 mx-auto" to="../createuser">
-					Create User instead
-				</Link>
-			</div>
-		</form>
+		</Form>
 	);
 }

@@ -34,7 +34,7 @@ func main() {
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000"},
+		AllowOrigins: []string{"http://localhost:3000", "http://localhost:3001"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 
@@ -43,5 +43,5 @@ func main() {
 	routes.InitRoutes(e)
 
 	e.Logger.Fatal(
-		e.Start(":3000"))
+		e.Start(":3001"))
 }
