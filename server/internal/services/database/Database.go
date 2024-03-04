@@ -45,7 +45,7 @@ func initUsersTable(db *sql.DB) {
 		id			SERIAL PRIMARY KEY,
 		email		varchar(32) UNIQUE,
 		username	varchar(32) UNIQUE,
-		password	varchar(32)
+		password	varchar(84)
 	);`)
 
 	if err != nil {

@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
   args_bin = []
   bin = "./tmp/main"
-  cmd = "npm run build --prefix ./frontend && go build -o ./tmp/main ./server/cmd/main.go"
+  cmd = "go build -o ./tmp/main ./server/cmd/main.go"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata", "frontend/build", "frontend/node_modules"]
   exclude_file = []

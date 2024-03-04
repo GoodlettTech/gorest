@@ -1,7 +1,9 @@
 package Auth
 
 import (
+	"fmt"
 	AuthMiddleware "server/server/internal/middleware/auth"
+	UserMiddleware "server/server/internal/middleware/user"
 	UserModel "server/server/internal/models"
 	AuthService "server/server/internal/services/auth"
 	UserService "server/server/internal/services/user"
@@ -15,22 +17,12 @@ func RegisterRoutes(group *echo.Group) {
 	}, AuthMiddleware.IsAuthenticated)
 
 	group.POST("/login", func(c echo.Context) error {
-		// parse body json into credentials object
-		var credentials UserModel.Credentials
-
-		err := c.Bind(&credentials)
-		if err != nil {
-			return echo.NewHTTPError(400, err.Error())
-		}
-
-		if err := c.Validate(&credentials); err != nil {
-			return echo.NewHTTPError(400, err.Error())
-		}
+		credentials := c.Get("credentials").(UserModel.Credentials)
 
 		// pass credentials to UserService to check if it is valid
 		userId, err := UserService.VerifyUser(&credentials)
 		if err != nil || userId == -1 {
-			return echo.NewHTTPError(401, "Invalid username or password")
+			return echo.NewHTTPError(400, "Invalid username or password")
 		}
 
 		// pass the user id to the auth service to generate a jwt
@@ -41,19 +33,11 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	})
+	}, UserMiddleware.TakesCredentials)
 
 	group.POST("/createuser", func(c echo.Context) error {
-		// parse body json into user object
-		var user UserModel.User
-
-		if err := c.Bind(&user); err != nil {
-			return echo.NewHTTPError(400, err.Error())
-		}
-
-		if err := c.Validate(&user); err != nil {
-			return echo.NewHTTPError(400, err.Error())
-		}
+		fmt.Println("CREATE USER")
+		user := c.Get("user").(UserModel.User)
 
 		// pass the user to UserService to create it in the database
 		if err := UserService.AddUser(&user); err != nil {
@@ -68,5 +52,5 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	})
+	}, UserMiddleware.TakesUser)
 }

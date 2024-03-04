@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"server/server/internal/routes"
+	"strings"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -14,8 +16,12 @@ type CustomValidator struct {
 
 func (cv *CustomValidator) Validate(i interface{}) error {
 	if err := cv.validator.Struct(i); err != nil {
-		// Optionally, you could return the error to give each route more control over the status code
-		return err
+		parts := strings.Split(err.Error(), " Error:")
+		if len(parts) != 2 {
+			return err
+		}
+
+		return errors.New(strings.TrimSpace(parts[1]))
 	}
 	return nil
 }
@@ -27,11 +33,15 @@ func main() {
 
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 
 	e.Validator = &CustomValidator{validator: validator.New()}
 
 	routes.InitRoutes(e)
 
 	e.Logger.Fatal(
-		e.Start(":3001"))
+		e.Start(":3000"))
 }

@@ -1,7 +1,7 @@
 package UserMiddleware
 
 import (
-	"errors"
+	"fmt"
 	UserModel "server/server/internal/models"
 
 	"github.com/labstack/echo/v4"
@@ -9,60 +9,39 @@ import (
 
 func TakesUser(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		email := c.FormValue("Email")
-		if email == "" {
-			return errors.New("email is required")
+		fmt.Println("TAKES USER")
+		// parse body json into user object
+		var user UserModel.User
+
+		if err := c.Bind(&user); err != nil {
+			return echo.NewHTTPError(400, err.Error())
 		}
 
-		username := c.FormValue("Username")
-		if username == "" {
-			return errors.New("username is required")
+		if err := c.Validate(&user); err != nil {
+			return echo.NewHTTPError(400, err.Error())
 		}
 
-		password := c.FormValue("Password")
-		if password == "" {
-			return errors.New("password is required")
-		}
-
-		confirm := c.FormValue("Confirm Password")
-		if confirm == "" {
-			return errors.New("password confirmation is required")
-		}
-
-		if password != confirm {
-			return errors.New("passwords must match")
-		}
-
-		user := &UserModel.User{
-			Email:    email,
-			Username: username,
-			Password: password,
-		}
-
-		c.Set("User", user)
-
+		c.Set("user", user)
+		fmt.Println("TAKES USER")
 		return next(c)
 	}
 }
 
 func TakesCredentials(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		username := c.FormValue("Username")
-		if username == "" {
-			return errors.New("username is required")
+		// parse body json into credentials object
+		var credentials UserModel.Credentials
+
+		err := c.Bind(&credentials)
+		if err != nil {
+			return echo.NewHTTPError(400, err.Error())
 		}
 
-		password := c.FormValue("Password")
-		if password == "" {
-			return errors.New("password is required")
+		if err := c.Validate(&credentials); err != nil {
+			return echo.NewHTTPError(400, err.Error())
 		}
 
-		creds := &UserModel.Credentials{
-			Username: username,
-			Password: password,
-		}
-
-		c.Set("credentials", creds)
+		c.Set("credentials", credentials)
 
 		return next(c)
 	}
