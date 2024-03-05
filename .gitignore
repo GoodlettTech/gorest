@@ -24,3 +24,6 @@ go.work
 *_templ.go
 tmp
 go.sum
+
+grafana
+data

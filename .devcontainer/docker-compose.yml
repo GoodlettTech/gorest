@@ -35,6 +35,26 @@ services:
       - .env
     ports:
       - "5050:80"
-
-    # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    restart: always
+    user: "1000:1000"
+    env_file:
+      - .env
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - ./prometheus/data:/prometheus
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    user: "1000:1000"
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 6969:3000
+    volumes:
+      - ./grafana:/var/lib/grafana

@@ -22,7 +22,7 @@ func RegisterRoutes(group *echo.Group) {
 		// pass credentials to UserService to check if it is valid
 		userId, err := UserService.VerifyUser(&credentials)
 		if err != nil || userId == -1 {
-			return echo.NewHTTPError(400, "Invalid username or password")
+			return echo.NewHTTPError(400, err.Error())
 		}
 
 		// pass the user id to the auth service to generate a jwt

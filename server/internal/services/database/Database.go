@@ -21,6 +21,8 @@ func GetInstance() *sql.DB {
 				panic("couldn't open database")
 			}
 
+			database.SetMaxOpenConns(250)
+
 			initUsersTable(database)
 		})
 	}

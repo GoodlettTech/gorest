@@ -50,6 +50,7 @@ func VerifyUser(creds *UserModel.Credentials) (int, error) {
 	if err != nil {
 		return -1, err
 	}
+	defer res.Close()
 
 	if res.Next() {
 		err = res.Scan(&id, &hashedPassword)

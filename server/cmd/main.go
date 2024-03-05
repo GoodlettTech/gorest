@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator"
+	"github.com/labstack/echo-contrib/echoprometheus"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -28,9 +29,6 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 
 func main() {
 	e := echo.New()
-
-	e.Static("", "./frontend/build")
-
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -38,10 +36,13 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 
+	e.Use(echoprometheus.NewMiddleware("web_server"))
+	e.GET("/metrics", echoprometheus.NewHandler()) // register route for getting gathered metrics data from our custom Registry
+
 	e.Validator = &CustomValidator{validator: validator.New()}
 
 	routes.InitRoutes(e)
 
 	e.Logger.Fatal(
-		e.Start(":3001"))
+		e.Start(":3000"))
 }

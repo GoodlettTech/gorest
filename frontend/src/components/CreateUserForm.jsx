@@ -11,52 +11,47 @@ export const [form, setForm] = createStore({
 	confirm: '',
 });
 
+const navigate = useNavigate();
+async function handleSubmit(e) {
+	e.preventDefault();
+	console.log(form);
+
+	if (form.password !== form.confirm) {
+		setError('Passwords must match');
+		return;
+	}
+
+	let response = await fetch('http://localhost:3001/api/auth/createuser', {
+		method: 'POST',
+		body: JSON.stringify({
+			email: form.email,
+			username: form.username,
+			password: form.password,
+			confirm: form.confirm,
+		}),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+
+	if (response.status !== 201) {
+		setError((await response.json()).message);
+		return;
+	}
+
+	setError('');
+
+	let token = await response.text();
+
+	setJwt(token);
+	navigate('/', { replace: true });
+}
+
 export default function CreateUserForm() {
 	setError('');
 
-	const navigate = useNavigate();
-
 	return (
-		<Form
-			title="Create User"
-			onsubmit={async (e) => {
-				e.preventDefault();
-				console.log(form);
-
-				if (form.password !== form.confirm) {
-					setError('Passwords must match');
-					return;
-				}
-
-				let response = await fetch(
-					'http://localhost:3001/api/auth/createuser',
-					{
-						method: 'POST',
-						body: JSON.stringify({
-							email: form.email,
-							username: form.username,
-							password: form.password,
-							confirm: form.confirm,
-						}),
-						headers: {
-							'Content-Type': 'application/json',
-						},
-					}
-				);
-
-				if (response.status !== 201) {
-					setError((await response.json()).message);
-					return;
-				}
-
-				setError('');
-
-				let token = await response.text();
-
-				setJwt(token);
-				navigate('/', { replace: true });
-			}}
-		>
+		<Form title="Create User" onsubmit={handleSubmit}>
 			<TextInput
 				id="emailInput"
 				placeholder="Enter Email"
