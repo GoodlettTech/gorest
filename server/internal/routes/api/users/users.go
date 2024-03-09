@@ -1,7 +1,6 @@
-package Auth
+package Users
 
 import (
-	"fmt"
 	AuthMiddleware "server/server/internal/middleware/auth"
 	UserMiddleware "server/server/internal/middleware/user"
 	UserModel "server/server/internal/models"
@@ -16,7 +15,7 @@ func RegisterRoutes(group *echo.Group) {
 		return c.NoContent(200)
 	}, AuthMiddleware.IsAuthenticated)
 
-	group.POST("/login", func(c echo.Context) error {
+	group.POST("/token", func(c echo.Context) error {
 		credentials := c.Get("credentials").(UserModel.Credentials)
 
 		// pass credentials to UserService to check if it is valid
@@ -35,8 +34,7 @@ func RegisterRoutes(group *echo.Group) {
 		return c.String(201, token)
 	}, UserMiddleware.TakesCredentials)
 
-	group.POST("/createuser", func(c echo.Context) error {
-		fmt.Println("CREATE USER")
+	group.POST("", func(c echo.Context) error {
 		user := c.Get("user").(UserModel.User)
 
 		// pass the user to UserService to create it in the database

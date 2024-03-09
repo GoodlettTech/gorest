@@ -21,14 +21,13 @@ func AddUser(user *UserModel.User) error {
 
 	//insert the user into the database
 	res, err := db.Query("INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING id;", user.Email, user.Username, user.Password)
-
-	//check if there was an error and handle it
 	if err != nil {
 		msg := strings.TrimPrefix(err.Error(), "pq:")
 		msg = strings.TrimSpace(msg)
 
 		return errors.New(msg)
 	}
+	defer res.Close()
 
 	if res.Next() {
 		err = res.Scan(&user.Id)

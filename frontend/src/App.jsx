@@ -14,9 +14,9 @@ export default function App() {
 					<Route path="/" component={HomePage} />
 					<Route path="/users" component={UsersPage} />
 				</Route>
-				<Route path="/login" component={LoginPage} />
-				<Route path="/createuser" component={CreateUserPage} />
 			</Route>
+			<Route path="/login" component={LoginPage} />
+			<Route path="/createuser" component={CreateUserPage} />
 		</Router>
 	);
 }

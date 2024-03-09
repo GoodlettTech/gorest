@@ -1,8 +1,8 @@
 import { A, useNavigate } from '@solidjs/router';
 import TextInput from './TextInput';
 import { createStore, produce } from 'solid-js/store';
-import Form, { error, setError } from './Form';
-import { jwt, setJwt } from '../signals/jwt';
+import Form, { setError } from './Form';
+import { setJwt } from '../signals/jwt';
 
 export const [form, setForm] = createStore({
 	username: '',
@@ -21,7 +21,7 @@ export default function LoginForm(props) {
 				console.log(form);
 
 				let response = await fetch(
-					'http://localhost:3001/api/auth/login',
+					'http://localhost:3001/api/users/token',
 					{
 						method: 'POST',
 						body: JSON.stringify({
@@ -44,11 +44,11 @@ export default function LoginForm(props) {
 				let token = await response.text();
 
 				setJwt(token);
-				navigate('/', {replace: true})
+				navigate('/', { replace: true });
 			}}
 		>
 			<TextInput
-				id="usernameInput"
+				id="loginUsernameInput"
 				placeholder="Enter Username"
 				name="username"
 				autocomplete="username"
@@ -67,7 +67,7 @@ export default function LoginForm(props) {
 				Username
 			</TextInput>
 			<TextInput
-				id="passwordInput"
+				id="loginPasswordInput"
 				type="password"
 				name="password"
 				autocomplete="pass"

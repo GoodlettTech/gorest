@@ -1,14 +1,14 @@
 package routes
 
 import (
-	Auth "server/server/internal/routes/api/auth"
+	Users "server/server/internal/routes/api/users"
 
 	"github.com/labstack/echo/v4"
 )
 
 func InitRoutes(e *echo.Echo) {
 	api := e.Group("api")
-	RegisterRoutes(api.Group("/auth"), Auth.RegisterRoutes)
+	RegisterRoutes(api.Group("/users"), Users.RegisterRoutes)
 }
 
 type RegisterRouterFunc func(*echo.Group)

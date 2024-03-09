@@ -5,7 +5,7 @@ export const [error, setError] = createSignal('');
 export default function Form(props) {
 	return (
 		<div class="card">
-			<h1 class="card-title text-center mt-4">{props.title}</h1>
+			<h2 class="card-title text-center mt-4">{props.title}</h2>
 			<div class="card-body">
 				<Show when={error().length !== 0}>
 					<div class="row">

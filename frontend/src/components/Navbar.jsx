@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js';
-import { A } from '@solidjs/router';
+import CreateUserForm from './CreateUserForm';
 
 export const [search, setSearch] = createSignal('');
 
@@ -34,7 +34,7 @@ export default function Navbar() {
 						</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a
+						<div
 							class="nav-link dropdown-toggle"
 							href="#"
 							id="navbarDropdown"
@@ -43,22 +43,15 @@ export default function Navbar() {
 							aria-haspopup="true"
 							aria-expanded="false"
 						>
-							Dropdown
-						</a>
+							Login
+						</div>
 						<div
 							class="dropdown-menu"
 							aria-labelledby="navbarDropdown"
 						>
-							<a class="dropdown-item" href="#">
-								Action
-							</a>
-							<a class="dropdown-item" href="#">
-								Another action
-							</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">
-								Something else here
-							</a>
+							<div style="min-width: 300px;">
+								<CreateUserForm></CreateUserForm>
+							</div>
 						</div>
 					</li>
 					<li class="nav-item">

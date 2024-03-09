@@ -11,44 +11,44 @@ export const [form, setForm] = createStore({
 	confirm: '',
 });
 
-const navigate = useNavigate();
-async function handleSubmit(e) {
-	e.preventDefault();
-	console.log(form);
-
-	if (form.password !== form.confirm) {
-		setError('Passwords must match');
-		return;
-	}
-
-	let response = await fetch('http://localhost:3001/api/auth/createuser', {
-		method: 'POST',
-		body: JSON.stringify({
-			email: form.email,
-			username: form.username,
-			password: form.password,
-			confirm: form.confirm,
-		}),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-
-	if (response.status !== 201) {
-		setError((await response.json()).message);
-		return;
-	}
-
-	setError('');
-
-	let token = await response.text();
-
-	setJwt(token);
-	navigate('/', { replace: true });
-}
-
 export default function CreateUserForm() {
 	setError('');
+	const navigate = useNavigate();
+
+	async function handleSubmit(e) {
+		e.preventDefault();
+		console.log(form);
+
+		if (form.password !== form.confirm) {
+			setError('Passwords must match');
+			return;
+		}
+
+		let response = await fetch('http://localhost:3001/api/users', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: form.email,
+				username: form.username,
+				password: form.password,
+				confirm: form.confirm,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		if (response.status !== 201) {
+			setError((await response.json()).message);
+			return;
+		}
+
+		setError('');
+
+		let token = await response.text();
+
+		setJwt(token);
+		navigate('/', { replace: true });
+	}
 
 	return (
 		<Form title="Create User" onsubmit={handleSubmit}>
@@ -69,7 +69,7 @@ export default function CreateUserForm() {
 				Email
 			</TextInput>
 			<TextInput
-				id="usernameInput"
+				id="createUserUsernameInput"
 				placeholder="Enter Username"
 				required={true}
 				minLength={4}
@@ -86,7 +86,7 @@ export default function CreateUserForm() {
 				Username
 			</TextInput>
 			<TextInput
-				id="passwordInput"
+				id="createUserPasswordInput"
 				type="password"
 				placeholder="Enter Password"
 				required={true}
@@ -119,7 +119,7 @@ export default function CreateUserForm() {
 				}
 				value={form.confirm}
 			>
-				Password
+				Confirm Password
 			</TextInput>
 			<div className="row justify-content-center">
 				<div className="col-sm-6 col-8 mt-2 justify-content-center d-flex">

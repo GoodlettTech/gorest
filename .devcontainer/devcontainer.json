@@ -16,7 +16,8 @@
 				"ms-azuretools.vscode-docker",
 				"dbaeumer.vscode-eslint",
 				"esbenp.prettier-vscode",
-				"ms-vscode.vscode-typescript-tslint-plugin"
+				"ms-vscode.vscode-typescript-tslint-plugin",
+				"redhat.vscode-yaml"
 			],
 			"settings": {
 				"files.exclude": {

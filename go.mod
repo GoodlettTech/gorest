@@ -3,11 +3,13 @@ module server
 go 1.22.0
 
 require (
+	github.com/carlware/promtail-go v0.1.1
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/labstack/echo-contrib v0.15.0
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/lib/pq v1.10.9
+	github.com/rs/zerolog v1.32.0
 	golang.org/x/crypto v0.20.0
 )
 
