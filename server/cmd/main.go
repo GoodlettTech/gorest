@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"server/server/internal/middleware/logging"
 	"server/server/internal/routes"
 	"strings"
 
@@ -34,7 +35,7 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 func main() {
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
-	e.Use(middleware.Logger())
+	e.Use(logging.Logger)
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:3000", "http://localhost:3001"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
@@ -47,7 +48,7 @@ func main() {
 		host     = "http://loki:3100"
 		username = ""
 		password = ""
-		labels   = "level,auth_error"
+		labels   = "level,type"
 	)
 
 	promtail, pErr := client.NewSimpleClient(host, username, password,
@@ -84,5 +85,5 @@ func main() {
 
 	routes.InitRoutes(e)
 
-	e.Logger.Fatal(e.Start(":3001"))
+	e.Logger.Fatal(e.Start(":3000"))
 }

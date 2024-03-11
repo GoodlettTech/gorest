@@ -3,7 +3,7 @@ package Users
 import (
 	AuthMiddleware "server/server/internal/middleware/auth"
 	UserMiddleware "server/server/internal/middleware/user"
-	UserModel "server/server/internal/models"
+	UserModel "server/server/internal/models/users"
 	AuthService "server/server/internal/services/auth"
 	UserService "server/server/internal/services/user"
 
@@ -27,7 +27,7 @@ func RegisterRoutes(group *echo.Group) {
 		// pass the user id to the auth service to generate a jwt
 		token, err := AuthService.CreateToken(userId)
 		if err != nil {
-			return echo.NewHTTPError(500, "Failed to create jwt")
+			return echo.NewHTTPError(500, "failed to create jwt")
 		}
 
 		// attach the jwt to the body and respond with a 201
@@ -45,7 +45,7 @@ func RegisterRoutes(group *echo.Group) {
 		// pass the user id to the auth service to generate a jwt
 		token, err := AuthService.CreateToken(user.Id)
 		if err != nil {
-			return echo.NewHTTPError(500, "Failed to create jwt")
+			return echo.NewHTTPError(500, "failed to create jwt")
 		}
 
 		// attach the jwt to the body and respond with a 201

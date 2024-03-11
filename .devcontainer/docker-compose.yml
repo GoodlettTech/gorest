@@ -1,4 +1,4 @@
-version: '2.2'
+version: "2.2"
 
 volumes:
   postgres-data:
@@ -11,6 +11,9 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    ports:
+      - 3000:3000
+      - 3001:3001
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
