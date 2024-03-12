@@ -1,4 +1,4 @@
-package BodyParser
+package Middleware
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Parse[T interface{}](name string) echo.MiddlewareFunc {
+func ParseBody[T interface{}](name string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			var data T

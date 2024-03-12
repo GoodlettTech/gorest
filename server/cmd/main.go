@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"server/server/internal/middleware/logging"
-	Validators "server/server/internal/middleware/validator"
+	Middleware "server/server/internal/middleware"
 	"server/server/internal/routes"
 
 	"github.com/carlware/promtail-go"
@@ -19,7 +18,7 @@ import (
 func main() {
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
-	e.Use(logging.Logger)
+	e.Use(Middleware.Logger)
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:3000", "http://localhost:3001", "http://192.168.1.180:3001", "http://192.168.1.180:3000"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
@@ -64,7 +63,7 @@ func main() {
 		}
 	}
 	log.Logger = log.Output(output)
-	val := Validators.NewCustomValidator(validator.New())
+	val := Middleware.NewCustomValidator(validator.New())
 	e.Validator = val
 	routes.InitRoutes(e)
 

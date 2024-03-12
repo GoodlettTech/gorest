@@ -1,4 +1,4 @@
-package Validators
+package Middleware
 
 import (
 	"errors"

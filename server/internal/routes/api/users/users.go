@@ -1,8 +1,7 @@
 package Users
 
 import (
-	AuthMiddleware "server/server/internal/middleware/auth"
-	BodyParser "server/server/internal/middleware/bodyparser"
+	Middleware "server/server/internal/middleware"
 	UserModel "server/server/internal/models/users"
 	AuthService "server/server/internal/services/auth"
 	UserService "server/server/internal/services/user"
@@ -13,7 +12,7 @@ import (
 func RegisterRoutes(group *echo.Group) {
 	group.GET("", func(c echo.Context) error {
 		return c.NoContent(200)
-	}, AuthMiddleware.IsAuthenticated)
+	}, Middleware.IsAuthenticated)
 
 	group.POST("/token", func(c echo.Context) error {
 		credentials := c.Get("credentials").(UserModel.Credentials)
@@ -32,7 +31,7 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	}, BodyParser.Parse[UserModel.Credentials]("credentials"))
+	}, Middleware.ParseBody[UserModel.Credentials]("credentials"))
 
 	group.POST("", func(c echo.Context) error {
 		user := c.Get("user").(UserModel.User)
@@ -50,5 +49,5 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	}, BodyParser.Parse[UserModel.User]("user"))
+	}, Middleware.ParseBody[UserModel.User]("user"))
 }

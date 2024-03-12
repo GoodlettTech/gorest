@@ -1,9 +1,8 @@
-package logging
+package Middleware
 
 import (
 	"errors"
 	"net/http"
-	Validators "server/server/internal/middleware/validator"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -19,7 +18,7 @@ func Logger(next echo.HandlerFunc) echo.HandlerFunc {
 		status := c.Response().Status
 		msg := ""
 
-		var validationError *Validators.ValidationError
+		var validationError *ValidationError
 		var httpErr *echo.HTTPError
 		if errors.As(err, &validationError) {
 			l = log.Error().Errs("errors", validationError.Errors())

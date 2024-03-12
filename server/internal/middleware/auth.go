@@ -1,4 +1,4 @@
-package AuthMiddleware
+package Middleware
 
 import (
 	AuthService "server/server/internal/services/auth"
