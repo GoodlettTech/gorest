@@ -3,7 +3,7 @@ export default function TextInput(props) {
 		<div class="form-group py-2">
 			<label for={props.id}>{props.children}</label>
 			<input
-				type={props.type || 'type'}
+				type={props.type || 'text'}
 				id={props.id}
 				class="form-control"
 				minLength={props.minLength}

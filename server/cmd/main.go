@@ -1,11 +1,10 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"server/server/internal/middleware/logging"
+	Validators "server/server/internal/middleware/validator"
 	"server/server/internal/routes"
-	"strings"
 
 	"github.com/carlware/promtail-go"
 	"github.com/carlware/promtail-go/client"
@@ -17,27 +16,12 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type CustomValidator struct {
-	validator *validator.Validate
-}
-
-func (cv *CustomValidator) Validate(i interface{}) error {
-	if err := cv.validator.Struct(i); err != nil {
-		parts := strings.Split(err.Error(), " Error:")
-		if len(parts) != 2 {
-			return err
-		}
-		return errors.New(strings.TrimSpace(parts[1]))
-	}
-	return nil
-}
-
 func main() {
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(logging.Logger)
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000", "http://localhost:3001"},
+		AllowOrigins: []string{"http://localhost:3000", "http://localhost:3001", "http://192.168.1.180:3001", "http://192.168.1.180:3000"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 
@@ -80,9 +64,8 @@ func main() {
 		}
 	}
 	log.Logger = log.Output(output)
-
-	e.Validator = &CustomValidator{validator: validator.New()}
-
+	val := Validators.NewCustomValidator(validator.New())
+	e.Validator = val
 	routes.InitRoutes(e)
 
 	e.Logger.Fatal(e.Start(":3000"))

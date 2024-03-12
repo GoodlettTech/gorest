@@ -1,6 +1,9 @@
 package logging
 
 import (
+	"errors"
+	"net/http"
+	Validators "server/server/internal/middleware/validator"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -14,10 +17,20 @@ func Logger(next echo.HandlerFunc) echo.HandlerFunc {
 		err := next(c)
 		duration := time.Since(start)
 		status := c.Response().Status
+		msg := ""
 
-		if err, ok := err.(*echo.HTTPError); ok {
-			l = log.Error().Err(err).Str("error", err.Message.(string))
-			status = err.Code
+		var validationError *Validators.ValidationError
+		var httpErr *echo.HTTPError
+		if errors.As(err, &validationError) {
+			l = log.Error().Errs("errors", validationError.Errors())
+			status = http.StatusBadRequest
+			msg = validationError.Error()
+		} else if errors.As(err, &httpErr) {
+			msg = httpErr.Message.(string)
+			l = log.Error().Err(err).Str("error", msg)
+			status = httpErr.Code
+		} else if err != nil {
+			msg = err.Error()
 		}
 
 		request := c.Request()
@@ -32,7 +45,7 @@ func Logger(next echo.HandlerFunc) echo.HandlerFunc {
 			Send()
 
 		if err != nil {
-			return c.String(status, err.Error())
+			return c.String(status, msg)
 		}
 
 		return err

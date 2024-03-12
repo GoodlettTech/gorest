@@ -17,14 +17,13 @@ export default function CreateUserForm() {
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		console.log(form);
 
 		if (form.password !== form.confirm) {
 			setError('Passwords must match');
 			return;
 		}
 
-		let response = await fetch('http://localhost:3001/api/users', {
+		let response = await fetch('http://localhost:3000/api/users', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: form.email,

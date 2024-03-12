@@ -13,11 +13,11 @@ func TakesUser(next echo.HandlerFunc) echo.HandlerFunc {
 		var user UserModel.User
 
 		if err := c.Bind(&user); err != nil {
-			return c.String(http.StatusBadRequest, err.Error())
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
 
 		if err := c.Validate(&user); err != nil {
-			return c.String(http.StatusBadRequest, err.Error())
+			return err
 		}
 
 		c.Set("user", user)
@@ -32,11 +32,11 @@ func TakesCredentials(next echo.HandlerFunc) echo.HandlerFunc {
 
 		err := c.Bind(&credentials)
 		if err != nil {
-			return c.String(http.StatusBadRequest, err.Error())
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
 
 		if err := c.Validate(&credentials); err != nil {
-			return c.String(http.StatusBadRequest, err.Error())
+			return err
 		}
 
 		c.Set("credentials", credentials)

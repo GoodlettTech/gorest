@@ -18,10 +18,9 @@ export default function LoginForm(props) {
 			title="Login"
 			onsubmit={async (e) => {
 				e.preventDefault();
-				console.log(form);
 
 				let response = await fetch(
-					'http://localhost:3001/api/users/token',
+					'http://localhost:3000/api/users/token',
 					{
 						method: 'POST',
 						body: JSON.stringify({
