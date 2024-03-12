@@ -2,7 +2,7 @@ package Users
 
 import (
 	AuthMiddleware "server/server/internal/middleware/auth"
-	UserMiddleware "server/server/internal/middleware/user"
+	BodyParser "server/server/internal/middleware/bodyparser"
 	UserModel "server/server/internal/models/users"
 	AuthService "server/server/internal/services/auth"
 	UserService "server/server/internal/services/user"
@@ -32,7 +32,7 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	}, UserMiddleware.TakesCredentials)
+	}, BodyParser.Parse[UserModel.Credentials]("credentials"))
 
 	group.POST("", func(c echo.Context) error {
 		user := c.Get("user").(UserModel.User)
@@ -50,5 +50,5 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	}, UserMiddleware.TakesUser)
+	}, BodyParser.Parse[UserModel.User]("user"))
 }
