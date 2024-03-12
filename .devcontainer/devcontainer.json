@@ -17,7 +17,9 @@
 				"dbaeumer.vscode-eslint",
 				"esbenp.prettier-vscode",
 				"ms-vscode.vscode-typescript-tslint-plugin",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"vscode-icons-team.vscode-icons",
+				"ms-vscode.makefile-tools"
 			],
 			"settings": {
 				"files.exclude": {

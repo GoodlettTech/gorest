@@ -1,8 +1,8 @@
-package Users
+package UsersRoutes
 
 import (
 	Middleware "server/server/internal/middleware"
-	UserModel "server/server/internal/models/users"
+	Models "server/server/internal/models"
 	AuthService "server/server/internal/services/auth"
 	UserService "server/server/internal/services/user"
 
@@ -15,7 +15,7 @@ func RegisterRoutes(group *echo.Group) {
 	}, Middleware.IsAuthenticated)
 
 	group.POST("/token", func(c echo.Context) error {
-		credentials := c.Get("credentials").(UserModel.Credentials)
+		credentials := c.Get("credentials").(Models.Credentials)
 
 		// pass credentials to UserService to check if it is valid
 		userId, err := UserService.VerifyUser(&credentials)
@@ -31,10 +31,10 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	}, Middleware.ParseBody[UserModel.Credentials]("credentials"))
+	}, Middleware.ParseBody[Models.Credentials]("credentials"))
 
 	group.POST("", func(c echo.Context) error {
-		user := c.Get("user").(UserModel.User)
+		user := c.Get("user").(Models.User)
 
 		// pass the user to UserService to create it in the database
 		if err := UserService.AddUser(&user); err != nil {
@@ -49,5 +49,5 @@ func RegisterRoutes(group *echo.Group) {
 
 		// attach the jwt to the body and respond with a 201
 		return c.String(201, token)
-	}, Middleware.ParseBody[UserModel.User]("user"))
+	}, Middleware.ParseBody[Models.User]("user"))
 }

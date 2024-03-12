@@ -2,13 +2,13 @@ package UserService
 
 import (
 	"errors"
-	UserModel "server/server/internal/models/users"
+	Models "server/server/internal/models"
 	Database "server/server/internal/services/database"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func AddUser(user *UserModel.User) error {
+func AddUser(user *Models.User) error {
 	db := Database.GetInstance()
 
 	//convert the password to a hashed password before insertion
@@ -36,7 +36,7 @@ func AddUser(user *UserModel.User) error {
 	return nil
 }
 
-func VerifyUser(creds *UserModel.Credentials) (int, error) {
+func VerifyUser(creds *Models.Credentials) (int, error) {
 	var id int = -1
 	var hashedPassword string = ""
 
