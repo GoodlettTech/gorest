@@ -4,14 +4,14 @@ import { createStore, produce } from 'solid-js/store';
 import Form, { setError } from './Form';
 import { setJwt } from '../signals/jwt';
 
-export const [form, setForm] = createStore({
-	username: '',
-	password: '',
-});
-
 export default function LoginForm(props) {
 	const navigate = useNavigate();
 	setError('');
+
+	const [form, setForm] = createStore({
+		username: '',
+		password: '',
+	});
 
 	return (
 		<Form

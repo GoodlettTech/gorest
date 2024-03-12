@@ -44,7 +44,10 @@ func Logger(next echo.HandlerFunc) echo.HandlerFunc {
 			Send()
 
 		if err != nil {
-			return c.String(status, msg)
+			return c.JSON(status, map[string]interface{}{
+				"message": msg,
+				"code":    status,
+			})
 		}
 
 		return err

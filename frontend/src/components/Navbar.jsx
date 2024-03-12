@@ -1,9 +1,9 @@
 import { createSignal } from 'solid-js';
 import CreateUserForm from './CreateUserForm';
 
-export const [search, setSearch] = createSignal('');
-
 export default function Navbar() {
+	const [search, setSearch] = createSignal('');
+
 	return (
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">

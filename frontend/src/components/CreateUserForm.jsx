@@ -4,16 +4,16 @@ import { createStore, produce } from 'solid-js/store';
 import Form, { setError } from './Form';
 import { setJwt } from '../signals/jwt';
 
-export const [form, setForm] = createStore({
-	email: '',
-	username: '',
-	password: '',
-	confirm: '',
-});
-
 export default function CreateUserForm() {
 	setError('');
 	const navigate = useNavigate();
+
+	const [form, setForm] = createStore({
+		email: '',
+		username: '',
+		password: '',
+		confirm: '',
+	});
 
 	async function handleSubmit(e) {
 		e.preventDefault();
