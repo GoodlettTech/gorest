@@ -23,27 +23,30 @@ export default function CreateUserForm() {
 			return;
 		}
 
-		let response = await fetch('http://localhost:3000/api/users', {
-			method: 'POST',
-			body: JSON.stringify({
-				email: form.email,
-				username: form.username,
-				password: form.password,
-				confirm: form.confirm,
-			}),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
+		let response = await fetch(
+			`${import.meta.env.VITE_BACKEND_URL}/api/users`,
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					email: form.email,
+					username: form.username,
+					password: form.password,
+					confirm: form.confirm,
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
+		);
 
 		if (response.status !== 201) {
-			setError((await response.json()).message);
+			setError((await response.json())?.message);
 			return;
 		}
 
 		setError('');
 
-		let token = await response.text();
+		let token = (await response.json())?.token;
 
 		setJwt(token);
 		navigate('/', { replace: true });

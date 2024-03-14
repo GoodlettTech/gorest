@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	Middleware "server/server/internal/middleware"
 	"server/server/internal/routes"
 
@@ -20,23 +21,21 @@ func main() {
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(Middleware.Logger)
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000", "http://localhost:3001", "http://192.168.1.180:3001", "http://192.168.1.180:3000"},
+		AllowOrigins: []string{os.Getenv("FRONTEND_URL")},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 
 	e.Use(echoprometheus.NewMiddleware("web_server"))
 	e.GET("/metrics", echoprometheus.NewHandler())
 
-	const (
-		host     = "http://loki:3100"
-		username = ""
-		password = ""
-		labels   = "level,type"
-	)
-
+	host := os.Getenv("LOKI_URL")
+	username := os.Getenv("LOKI_USERNAME")
+	password := os.Getenv("LOKI_PASSWORD")
+	labels   := "level,type"
+	
 	promtail, pErr := client.NewSimpleClient(host, username, password,
 		client.WithStaticLabels(map[string]interface{}{
-			"app": "gorest",
+			"app": os.Getenv("APP_NAME"),
 		}),
 		client.WithStreamConverter(promtail.NewRawStreamConv(labels, "=")),
 		client.WithWriteTimeout(1000),

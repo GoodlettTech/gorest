@@ -29,8 +29,9 @@ func RegisterRoutes(group *echo.Group) {
 			return echo.NewHTTPError(500, "failed to create jwt")
 		}
 
-		// attach the jwt to the body and respond with a 201
-		return c.String(201, token)
+		return c.JSON(201, map[string]interface{}{
+			token: token,
+		})
 	}, Middleware.ParseBody[Models.Credentials]("credentials"))
 
 	group.POST("", func(c echo.Context) error {
@@ -47,7 +48,8 @@ func RegisterRoutes(group *echo.Group) {
 			return echo.NewHTTPError(500, "failed to create jwt")
 		}
 
-		// attach the jwt to the body and respond with a 201
-		return c.String(201, token)
+		return c.JSON(201, map[string]interface{}{
+			token: token,
+		})
 	}, Middleware.ParseBody[Models.User]("user"))
 }

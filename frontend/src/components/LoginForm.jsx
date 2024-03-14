@@ -20,7 +20,7 @@ export default function LoginForm(props) {
 				e.preventDefault();
 
 				let response = await fetch(
-					'http://localhost:3000/api/users/token',
+					`${import.meta.env.VITE_BACKEND_URL}/api/users/token`,
 					{
 						method: 'POST',
 						body: JSON.stringify({
@@ -40,7 +40,7 @@ export default function LoginForm(props) {
 
 				setError('');
 
-				let token = await response.text();
+				let token = (await response.json())?.token;
 
 				setJwt(token);
 				navigate('/', { replace: true });
