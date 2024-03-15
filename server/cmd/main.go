@@ -19,7 +19,6 @@ import (
 func main() {
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
-	e.Use(Middleware.Logger)
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{os.Getenv("FRONTEND_URL")},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
@@ -31,8 +30,8 @@ func main() {
 	host := os.Getenv("LOKI_URL")
 	username := os.Getenv("LOKI_USERNAME")
 	password := os.Getenv("LOKI_PASSWORD")
-	labels   := "level,type"
-	
+	labels := "level,type"
+
 	promtail, pErr := client.NewSimpleClient(host, username, password,
 		client.WithStaticLabels(map[string]interface{}{
 			"app": os.Getenv("APP_NAME"),
@@ -65,6 +64,10 @@ func main() {
 	val := Middleware.NewCustomValidator(validator.New())
 	e.Validator = val
 	routes.InitRoutes(e)
+
+	e.Use(Middleware.HandleError(Middleware.ValidationErrorHandler))
+	e.Use(Middleware.HandleError(Middleware.HTTPErrorHandler))
+	e.Use(Middleware.Logger)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }

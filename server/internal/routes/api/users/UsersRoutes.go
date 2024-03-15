@@ -30,7 +30,7 @@ func RegisterRoutes(group *echo.Group) {
 		}
 
 		return c.JSON(201, map[string]interface{}{
-			token: token,
+			"token": token,
 		})
 	}, Middleware.ParseBody[Models.Credentials]("credentials"))
 
@@ -49,7 +49,7 @@ func RegisterRoutes(group *echo.Group) {
 		}
 
 		return c.JSON(201, map[string]interface{}{
-			token: token,
+			"token": token,
 		})
 	}, Middleware.ParseBody[Models.User]("user"))
 }

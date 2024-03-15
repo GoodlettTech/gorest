@@ -34,7 +34,7 @@ export default function LoginForm(props) {
 				);
 
 				if (response.status !== 201) {
-					setError((await response.json()).message);
+					setError((await response.json())?.Errors?.join('\n'));
 					return;
 				}
 

@@ -10,8 +10,8 @@ Briefly describe your project, highlighting its main features and functionalitie
 - [Devcontainer](#devcontainer)
   - [Installation](#installation)
   - [Configuration](#configuration)
-- [Logging](#logging)
 - [Metrics](#metrics)
+- [Logging](#logging)
 - [Visualization](#visualization)
 
 
