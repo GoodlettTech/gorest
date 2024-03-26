@@ -9,15 +9,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// @Summary		Create a new token for the given user
-// @Description	Create a new token for the given user
-// @Tags			users, token, jwt, jsonwebtoken, authentication
-// @Accept			json
-// @Produce		json
-// @Param			credentials	body		Models.Credentials	true	"The credentials of the user"
-// @Success		201			{object}	Models.TokenResponse
-// @Failure		400			{object}	Middleware.ErrorResponse
-// @Router			/api/users/token [post]
+//	@Summary		Create a new token for the given user
+//	@Description	Create a new token for the given user
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			credentials	body		Models.Credentials	true	"The credentials of the user"
+//	@Success		201			{object}	Models.TokenResponse
+//	@Failure		400			{object}	Middleware.ErrorResponse
+//	@Router			/api/users/token [post]
 func handlePostToken(c echo.Context) error {
 	credentials := c.Get("credentials").(Models.Credentials)
 
@@ -38,15 +38,15 @@ func handlePostToken(c echo.Context) error {
 	})
 }
 
-// @Summary		Create a new user
-// @Description	Create a new user
-// @Tags			users, user, create, register
-// @Accept			json
-// @Produce		json
-// @Param			user	body		Models.User	true	"The user to create"
-// @Success		201		{object}	Models.TokenResponse
-// @Failure		400		{object}	Middleware.ErrorResponse
-// @Router			/api/users [post]
+//	@Summary		Create a new user
+//	@Description	Create a new user
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		Models.User	true	"The user to create"
+//	@Success		201		{object}	Models.TokenResponse
+//	@Failure		400		{object}	Middleware.ErrorResponse
+//	@Router			/api/users [post]
 func handlePostUser(c echo.Context) error {
 	user := c.Get("user").(Models.User)
 	// pass the user to UserService to create it in the database

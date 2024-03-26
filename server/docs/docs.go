@@ -25,10 +25,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users",
-                    "user",
-                    "create",
-                    "register"
+                    "users"
                 ],
                 "summary": "Create a new user",
                 "parameters": [
@@ -68,11 +65,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users",
-                    "token",
-                    "jwt",
-                    "jsonwebtoken",
-                    "authentication"
+                    "users"
                 ],
                 "summary": "Create a new token for the given user",
                 "parameters": [

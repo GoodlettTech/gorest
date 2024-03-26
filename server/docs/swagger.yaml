@@ -80,9 +80,6 @@ paths:
       summary: Create a new user
       tags:
       - users
-      - user
-      - create
-      - register
   /api/users/token:
     post:
       consumes:
@@ -109,10 +106,6 @@ paths:
       summary: Create a new token for the given user
       tags:
       - users
-      - token
-      - jwt
-      - jsonwebtoken
-      - authentication
 schemes:
 - https
 swagger: "2.0"
