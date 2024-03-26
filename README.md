@@ -7,6 +7,7 @@
 	- [Features](#features)
 	- [Devcontainer](#devcontainer)
 		- [Configuration](#configuration)
+	- [Metrics](#metrics)
 	- [Logging](#logging)
 	- [Visualization](#visualization)
 	- [Documentation](#documentation)
@@ -41,10 +42,11 @@ The majority of the development is done inside the application container, which 
 
 ### Configuration
 
-The configuration of my applicationtiondonea .env filee dev con that is passed tois means that the  when launching it. This meansthrough the envirhasbles, b to these requires rthrough thearting the container.
-, but updatingm requires restarting the
+The application's configuration is managed through a .env file, allowing for easy customization of settings when launching the application. However, updating certain configurations may require restarting the container.
 
-The backend is configured with a prometheus exporter to enable the prometheus container to scrape metrics from it. The metrics include data such as the success and error rates for each api endpoint based on the HTTP Method. This allows for very deep insights into how the backend is being utilized.
+## Metrics
+
+The backend is equipped with a Prometheus exporter, enabling the Prometheus container to collect metrics from the backend. These metrics provide valuable insights into the usage of each API endpoint, including success and error rates based on the HTTP method. This comprehensive monitoring capability allows for a deeper understanding of the backend's performance and utilization.
 
 ## Logging
 
