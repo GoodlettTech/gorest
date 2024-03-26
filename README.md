@@ -1,71 +1,60 @@
 # Goodlett.Tech
 
-## Description
-
-Briefly describe your project, highlighting its main features and functionalities.
-
 ## Table of Contents
 
 - [Goodlett.Tech](#goodletttech)
-	- [Description](#description)
 	- [Table of Contents](#table-of-contents)
 	- [Features](#features)
 	- [Devcontainer](#devcontainer)
-		- [Installation](#installation)
 		- [Configuration](#configuration)
-	- [Metrics](#metrics)
 	- [Logging](#logging)
 	- [Visualization](#visualization)
 	- [Documentation](#documentation)
 
 
 ## Features
-The application currently only really has a log in and user creation page. I had been trying to decide if I wanted to move over to an htmx frontend so I decided to spend some more time building out services around my application so if I decided to change it would require minimal changes.
+
+The application offers the following features:
+
+- User Creation: Users can create an account by providing their credentials.
+- User Login: Users can log in to their account using their username and password.
+- Error Handling: The backend includes general error handling to provide meaningful error messages to users.
+- Middleware Configuration: The backend is configured with middleware to handle authentication and other common tasks.
+- Loki Logging: The project utilizes Loki for logging, allowing for centralized log storage and analysis.
+- Prometheus Metrics: The backend includes Prometheus exporters to collect and expose metrics, providing insights into the application's performance.
+- Postgres Database: The application uses a Postgres database to store user data.
+- PgAdmin: PgAdmin is included to provide a user-friendly interface for managing and viewing the database.
+- Frontend with SolidJS: The frontend is built with SolidJS and includes a login page and a user creation page. These pages interact with the backend routes for user creation and login.
 
 ## Devcontainer
 
-The project comes with a devcontainer config with the following containers:
+The project includes a devcontainer configuration with the following containers:
 
-- application container
-- postgres database
-- pgadmin
-- prometheus
-- loki
-- grafana
+- Application container
+- PostgreSQL database
+- PgAdmin
+- Prometheus
+- Loki
+- Grafana
 
-The bulk of work is done inside of the application container which is configured for golang and javascript. This allows for developing a golang rest api in the backend and a solidjs based frontend to consume it. Because these containers are configured with everything needed to develop, the only requirements are docker, vscode, and the dev container plugin for vscode.
-
-### Installation
-
-1. Install Docker
-2. Install VS Code
-3. install VS Code Dev Containers plugin
+The majority of the development is done inside the application container, which is configured for Go and JavaScript. This setup allows for the development of a Go-based REST API backend and a frontend using SolidJS to consume it. With these containers pre-configured with all the necessary tools, the only requirements for development are Docker, VS Code, and the VS Code Dev Container extension.
 
 ### Configuration
 
-The configuration of my application is done through a .env file that is passed to the dev container when launching it. This means that the server has access to these variables through the environment variables, but updating them requires restarting the container.
-
-## Metrics
+The configuration of my applicationtiondonea .env filee dev con that is passed tois means that the  when launching it. This meansthrough the envirhasbles, b to these requires rthrough thearting the container.
+, but updatingm requires restarting the
 
 The backend is configured with a prometheus exporter to enable the prometheus container to scrape metrics from it. The metrics include data such as the success and error rates for each api endpoint based on the HTTP Method. This allows for very deep insights into how the backend is being utilized.
 
 ## Logging
 
-Logs are exported to the loki container via the server's promtail operator. Logs are currently kind of limited in the project but once I learn how to tie the logs and metrics together using labels they will provide a rich understanding of what my application is doing.
+The project utilizes the promtail operator to export logs to the loki container. Although the current log implementation is limited, future enhancements will involve integrating logs and metrics using labels to provide a comprehensive understanding of the application's behavior and performance.
 
 ## Visualization
 
-I am using Grafana to display my log data and metrics data. Soon I will be working on creating a nice dashboard so the data is a bit easier to view and understand. I would also eventually like to add alerting but it isn't really necessary at the moment.
+Utilizing Grafana, I have implemented a comprehensive log and metrics visualization solution. In the near future, I plan to develop a visually appealing dashboard to enhance data accessibility and comprehension. Additionally, I aim to incorporate alerting functionality to ensure timely response to critical events. While not currently essential, this feature will further enhance the monitoring capabilities of the system.
 
 ## Documentation
 
-The project's routes are documented using Swagger docs. Swagger is a powerful tool for documenting APIs, providing a clear and interactive documentation for developers to understand the available endpoints, request/response formats, and any additional information.
+This project utilizes Swagger documentation to provide a unified and organized interface for viewing comprehensive information about its API endpoints. By integrating code and comments within the same file, the documentation becomes easier to maintain and facilitates seamless searching and interaction. This approach enhances the professionalism and efficiency of managing the project's documentation.
 
-To access the Swagger documentation when hosting the project, follow these steps:
-
-1. Start the project and ensure it is running.
-2. Open a web browser and navigate to the following URL: `http://localhost:PORT/swagger/index.html`, where `PORT` is the port number on which your project is running.
-3. The Swagger UI will be displayed, showing a list of all the available routes and their details.
-4. Explore the different endpoints, request/response schemas, and any additional information provided in the Swagger documentation.
-
-Having well-documented routes with Swagger not only helps developers understand the API, but also makes it easier to collaborate with others and integrate the project with other systems.
