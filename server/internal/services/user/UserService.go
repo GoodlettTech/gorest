@@ -2,8 +2,8 @@ package UserService
 
 import (
 	"errors"
-	Models "server/server/internal/models"
-	Database "server/server/internal/services/database"
+	Models "server/internal/models"
+	Database "server/internal/services/database"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -21,8 +21,7 @@ func AddUser(user *Models.User) error {
 	//insert the user into the database
 	res, err := db.Query("INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING id;", user.Email, user.Username, user.Password)
 	if err != nil {
-		parsedErr := Database.ParseError(err)
-		return parsedErr
+		return err
 	}
 	defer res.Close()
 
@@ -44,15 +43,14 @@ func VerifyUser(creds *Models.Credentials) (int, error) {
 
 	res, err := db.Query("SELECT id, password FROM users WHERE username = $1", creds.Username)
 	if err != nil {
-		parsedErr := Database.ParseError(err)
-		return -1, parsedErr
+		return -1, err
 	}
 	defer res.Close()
 
 	if res.Next() {
 		err = res.Scan(&id, &hashedPassword)
 		if err != nil {
-			return -1, errors.New("error reading user data from database")
+			return -1, err
 		}
 
 		err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(creds.Password))
@@ -62,6 +60,6 @@ func VerifyUser(creds *Models.Credentials) (int, error) {
 
 		return id, nil
 	} else {
-		return -1, errors.New("user not found")
+		return -1, Models.NewNotFoundError("user not found")
 	}
 }

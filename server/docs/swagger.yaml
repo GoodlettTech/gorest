@@ -1,0 +1,118 @@
+basePath: /api
+definitions:
+  Middleware.ErrorResponse:
+    properties:
+      code:
+        type: integer
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  Models.Credentials:
+    properties:
+      password:
+        maxLength: 32
+        minLength: 8
+        type: string
+      username:
+        maxLength: 16
+        minLength: 4
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  Models.TokenResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  Models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        maxLength: 32
+        minLength: 8
+        type: string
+      username:
+        maxLength: 16
+        minLength: 4
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: This is a server build with the Echo API.
+  title: Echo API
+  version: "1.0"
+paths:
+  /api/users:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user
+      parameters:
+      - description: The user to create
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/Models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/Models.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Middleware.ErrorResponse'
+      summary: Create a new user
+      tags:
+      - users
+      - user
+      - create
+      - register
+  /api/users/token:
+    post:
+      consumes:
+      - application/json
+      description: Create a new token for the given user
+      parameters:
+      - description: The credentials of the user
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/Models.Credentials'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/Models.TokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Middleware.ErrorResponse'
+      summary: Create a new token for the given user
+      tags:
+      - users
+      - token
+      - jwt
+      - jsonwebtoken
+      - authentication
+schemes:
+- https
+swagger: "2.0"

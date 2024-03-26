@@ -1,4 +1,4 @@
-import { A, useNavigate } from '@solidjs/router';
+import { A, useLocation, useNavigate } from '@solidjs/router';
 import TextInput from './TextInput';
 import { createStore, produce } from 'solid-js/store';
 import Form, { setError } from './Form';
@@ -12,6 +12,8 @@ export default function LoginForm(props) {
 		username: '',
 		password: '',
 	});
+
+	console.log(useLocation())
 
 	return (
 		<Form

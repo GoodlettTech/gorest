@@ -2,10 +2,8 @@ package Database
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"sync"
 
 	_ "github.com/lib/pq"
@@ -55,30 +53,4 @@ func initUsersTable(db *sql.DB) {
 	if err != nil {
 		panic(err)
 	}
-}
-
-// takes an error from the postgres database
-// returns a nicely formatted error
-func ParseError(err error) error {
-	msg := strings.TrimPrefix(err.Error(), "pq:")
-	msg = strings.TrimSpace(msg)
-
-	if strings.Contains(msg, "duplicate key") {
-		parts := strings.Split(msg, "\"")
-		if len(parts) < 2 {
-			return err
-		}
-		dbfield := parts[1]
-
-		fieldSlice := strings.Split(dbfield, "_")
-		if len(fieldSlice) < 2 {
-			return err
-		}
-
-		field := fieldSlice[1]
-
-		msg = fmt.Sprintf("%s already in use", field)
-	}
-
-	return errors.New(msg)
 }

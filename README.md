@@ -6,13 +6,17 @@ Briefly describe your project, highlighting its main features and functionalitie
 
 ## Table of Contents
 
-- [Features](#features)
-- [Devcontainer](#devcontainer)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-- [Metrics](#metrics)
-- [Logging](#logging)
-- [Visualization](#visualization)
+- [Goodlett.Tech](#goodletttech)
+	- [Description](#description)
+	- [Table of Contents](#table-of-contents)
+	- [Features](#features)
+	- [Devcontainer](#devcontainer)
+		- [Installation](#installation)
+		- [Configuration](#configuration)
+	- [Metrics](#metrics)
+	- [Logging](#logging)
+	- [Visualization](#visualization)
+	- [Documentation](#documentation)
 
 
 ## Features
@@ -52,3 +56,16 @@ Logs are exported to the loki container via the server's promtail operator. Logs
 ## Visualization
 
 I am using Grafana to display my log data and metrics data. Soon I will be working on creating a nice dashboard so the data is a bit easier to view and understand. I would also eventually like to add alerting but it isn't really necessary at the moment.
+
+## Documentation
+
+The project's routes are documented using Swagger docs. Swagger is a powerful tool for documenting APIs, providing a clear and interactive documentation for developers to understand the available endpoints, request/response formats, and any additional information.
+
+To access the Swagger documentation when hosting the project, follow these steps:
+
+1. Start the project and ensure it is running.
+2. Open a web browser and navigate to the following URL: `http://localhost:PORT/swagger/index.html`, where `PORT` is the port number on which your project is running.
+3. The Swagger UI will be displayed, showing a list of all the available routes and their details.
+4. Explore the different endpoints, request/response schemas, and any additional information provided in the Swagger documentation.
+
+Having well-documented routes with Swagger not only helps developers understand the API, but also makes it easier to collaborate with others and integrate the project with other systems.

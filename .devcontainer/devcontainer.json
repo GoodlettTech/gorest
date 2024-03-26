@@ -19,7 +19,8 @@
 				"ms-vscode.vscode-typescript-tslint-plugin",
 				"redhat.vscode-yaml",
 				"vscode-icons-team.vscode-icons",
-				"ms-vscode.makefile-tools"
+				"ms-vscode.makefile-tools",
+				"GitHub.copilot"
 			],
 			"settings": {
 				"files.exclude": {

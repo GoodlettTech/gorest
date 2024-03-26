@@ -1,7 +1,7 @@
 package Middleware
 
 import (
-	AuthService "server/server/internal/services/auth"
+	AuthService "server/internal/services/auth"
 
 	"github.com/labstack/echo/v4"
 )

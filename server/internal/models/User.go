@@ -11,3 +11,7 @@ type Credentials struct {
 	Username string `json:"username" validate:"required,min=4,max=16"`
 	Password string `json:"password" validate:"required,min=8,max=32"`
 }
+
+type TokenResponse struct {
+	Token string `json:"token"`
+}

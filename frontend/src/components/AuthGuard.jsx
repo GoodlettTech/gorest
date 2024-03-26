@@ -1,14 +1,15 @@
-import { useNavigate } from '@solidjs/router';
+import { useNavigate, useLocation } from '@solidjs/router';
 import { createEffect } from 'solid-js';
 
 import { jwt } from '../signals/jwt';
 
 export default function AuthGuard(props) {
 	const navigate = useNavigate();
-
+	
 	createEffect(() => {
 		if (!jwt()) {
-			navigate('/login', {
+			const location = useLocation();
+			navigate(`/login?redirect=${location.pathname}${location.search}`, {
 				replace: true,
 			});
 		}
