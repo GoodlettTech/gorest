@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	Models "server/internal/models"
+	Errors "server/internal/errors"
 
 	"github.com/labstack/echo/v4"
 	"github.com/lib/pq"
@@ -30,7 +30,7 @@ func HandleError[T error](handler Handler[T]) echo.MiddlewareFunc {
 	}
 }
 
-func NotFoundErrorHandler(c echo.Context, err *Models.NotFoundError) *ErrorResponse {
+func NotFoundErrorHandler(c echo.Context, err *Errors.NotFoundError) *ErrorResponse {
 	return &ErrorResponse{
 		Code:   http.StatusNotFound,
 		Errors: []string{err.Error()},

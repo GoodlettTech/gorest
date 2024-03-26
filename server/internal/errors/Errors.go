@@ -1,4 +1,4 @@
-package Models
+package Errors
 
 type NotFoundError struct {
 	Message string

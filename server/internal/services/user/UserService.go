@@ -2,12 +2,14 @@ package UserService
 
 import (
 	"errors"
+	Errors "server/internal/errors"
 	Models "server/internal/models"
 	Database "server/internal/services/database"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
+// AddUser adds a new user to the database. It returns an error if the insertion fails.
 func AddUser(user *Models.User) error {
 	db := Database.GetInstance()
 
@@ -35,6 +37,8 @@ func AddUser(user *Models.User) error {
 	return nil
 }
 
+// VerifyUser verifies the user's credentials by checking if the provided username and password match the records in the database.
+// It returns the user's ID if the credentials are valid, otherwise it returns -1 and an error.
 func VerifyUser(creds *Models.Credentials) (int, error) {
 	var id int = -1
 	var hashedPassword string = ""
@@ -60,6 +64,6 @@ func VerifyUser(creds *Models.Credentials) (int, error) {
 
 		return id, nil
 	} else {
-		return -1, Models.NewNotFoundError("user not found")
+		return -1, Errors.NewNotFoundError("user not found")
 	}
 }

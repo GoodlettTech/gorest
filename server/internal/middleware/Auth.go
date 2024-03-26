@@ -8,11 +8,15 @@ import (
 
 func IsAuthenticated(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		// get jwt string from auth header
-		authHeader := c.Request().Header.Get("Auth")
+		cookie, err := c.Cookie("auth")
+		if err != nil {
+			return echo.NewHTTPError(401, "must be authenticated to use this route")
+		}
+
+		tokenString := cookie.Value
 
 		// parse the jwt string and handle errors
-		token, err := AuthService.ValidateToken(authHeader)
+		token, err := AuthService.ValidateToken(tokenString)
 		if err != nil {
 			return echo.NewHTTPError(401, "must be authenticated to use this route")
 		}

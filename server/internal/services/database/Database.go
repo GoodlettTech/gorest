@@ -12,6 +12,8 @@ import (
 var once sync.Once
 var database *sql.DB
 
+// GetInstance returns the singleton instance of the database connection.
+// If the instance doesn't exist, it creates a new one and initializes the necessary tables.
 func GetInstance() *sql.DB {
 	if database == nil {
 		once.Do(func() {
@@ -29,6 +31,7 @@ func GetInstance() *sql.DB {
 	return database
 }
 
+// getConnectionString returns the connection string for the PostgreSQL database.
 func getConnectionString() string {
 	var (
 		host     = os.Getenv("POSTGRES_HOSTNAME")
@@ -42,6 +45,9 @@ func getConnectionString() string {
 		host, port, user, password, dbname)
 }
 
+// initUsersTable initializes the users table in the database if it doesn't already exist.
+// It takes a *sql.DB as a parameter and executes the necessary SQL statements to create the table.
+// If an error occurs during the execution, it panics.
 func initUsersTable(db *sql.DB) {
 	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS users (
 		id			SERIAL PRIMARY KEY,
