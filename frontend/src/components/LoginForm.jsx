@@ -43,8 +43,8 @@ export default function LoginForm(props) {
 				setError('');
 
 				let token = (await response.json())?.token;
-
 				setJwt(token);
+
 				navigate('/', { replace: true });
 			}}
 		>

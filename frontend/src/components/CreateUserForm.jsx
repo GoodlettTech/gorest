@@ -47,8 +47,8 @@ export default function CreateUserForm() {
 		setError('');
 
 		let token = (await response.json())?.token;
-
 		setJwt(token);
+
 		navigate('/', { replace: true });
 	}
 
