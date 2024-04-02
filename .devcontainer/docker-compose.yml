@@ -16,6 +16,7 @@ services:
       - 3001:3001
     volumes:
       - ../..:/workspaces:cached
+      - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
   db:
     image: postgres:latest

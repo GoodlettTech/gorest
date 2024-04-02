@@ -1,6 +1,7 @@
 package UsersRoutes
 
 import (
+	"net/http"
 	Middleware "server/internal/middleware"
 	Models "server/internal/models"
 	AuthService "server/internal/services/auth"
@@ -33,11 +34,11 @@ func handlePostToken(c echo.Context) error {
 		return echo.NewHTTPError(500, "failed to create jwt")
 	}
 
-	// create a cookie with the token in it
-	cookie := AuthService.CreateCookie(token)
-	c.SetCookie(cookie)
+	c.Set("token", token)
 
-	return c.NoContent(201)
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"token": token,
+	})
 }
 
 // @Summary			Create a new user
@@ -62,11 +63,11 @@ func handlePostUser(c echo.Context) error {
 		return echo.NewHTTPError(500, "failed to create jwt")
 	}
 
-	// create a cookie with the token in it
-	cookie := AuthService.CreateCookie(token)
-	c.SetCookie(cookie)
+	c.Set("token", token)
 
-	return c.NoContent(201)
+	return c.JSON(http.StatusCreated, map[string]interface{}{
+		"token": token,
+	})
 }
 
 func testHandler(c echo.Context) error {

@@ -2,7 +2,6 @@ package AuthService
 
 import (
 	"errors"
-	"net/http"
 	"os"
 	"time"
 
@@ -48,16 +47,4 @@ func ValidateToken(tokenString string) (*jwt.Token, error) {
 	}
 
 	return token, nil
-}
-
-// CreateCookie creates a new HTTP cookie with the given token string.
-// The cookie is named "token" and has an expiration time of 1 hour.
-func CreateCookie(tokenString string) *http.Cookie {
-	return &http.Cookie{
-		Name:     "auth",
-		Value:    tokenString,
-		Expires:  time.Now().Add(time.Hour * 1),
-		HttpOnly: true,
-		Secure:   true,
-	}
 }
